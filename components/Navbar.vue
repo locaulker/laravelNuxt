@@ -5,6 +5,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
+
     <ul class="navbar-nav">
       <li class="nav-item active">
         <nuxt-link to="/" class="nav-link">Home</nuxt-link>
@@ -13,20 +14,40 @@
         <nuxt-link to="/" class="nav-link">Posts</nuxt-link>
       </li>
     </ul>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <nuxt-link to="/login" class="nav-link">Login</nuxt-link>
-      </li>
-      <li class="nav-item">
-        <nuxt-link to="/register" class="nav-link">Register</nuxt-link>
-      </li>
-    </ul>
+
+    <template v-if="!authenticated">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <nuxt-link to="/login" class="nav-link">Login</nuxt-link>
+        </li>
+        <li class="nav-item">
+          <nuxt-link to="/register" class="nav-link">Register</nuxt-link>
+        </li>
+      </ul>
+    </template>
+
+    <template v-if="authenticated">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link">{{user.name}}</a>
+        </li>
+        <li class="nav-item">
+          <a @click.prevent="logoutUser" class="nav-link">Logout</a>
+        </li>
+      </ul>
+    </template>
+
   </div>
 </nav>
 </template>
 
 <script>
+
 export default {
-  
+  methods: {
+    logoutUser() {
+      this.$auth.logout()
+    }
+  }
 }
 </script>
